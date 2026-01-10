@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html data-theme="{{ theme }}">
+<head>
+    <meta charset="UTF-8">
+    <title>SIOL – Rules & Regulations</title>
+
+    <link rel="icon" type="image/png" href="/static/images/SIOL.png">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/js/security.js"></script>
+</head>
+<body>
+
+<div class="fixed-header">
+    <div style="display:flex;align-items:center;gap:10px;">
+        <img src="/static/images/SIOL.png" alt="SIOL Logo" style="width: 50px;  height: 50px;">
+        <div class="header-title">
+  <strong>SIOL Quiz Platform</strong>
+  {% if test_name %}
+    <span class="test-name">— {{ test_name.replace("_", " ") }}</span>
+  {% endif %}
+</div>
+    </div>
+</div>
+
+<div class="container">
+
+<h2>Rules & Regulations</h2>
+
+<div class="rules-box">
+    {% for line in rules_lines %}
+        {% if line %}
+            <div class="rule-line">{{ line }}</div>
+        {% else %}
+            <div class="rule-gap"></div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+
+<form action="/quiz" method="get" style="margin-top:20px;">
+    <button type="submit">Start Quiz</button>
+</form>
+
+</div>
+</body>
+</html>

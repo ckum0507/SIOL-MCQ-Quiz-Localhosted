@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html data-theme="{{ theme }}">
+<head>
+    <meta charset="UTF-8">
+    <title>SIOL – Quiz</title>
+
+    <link rel="icon" type="image/png" href="/static/images/SIOL.png">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/js/security.js"></script>
+</head>
+<body>
+
+<div class="fixed-header-quiz">
+
+    <div class="header-left">
+        <img src="/static/images/SIOL.png" alt="SIOL Logo">
+        <div class="header-title">
+  <strong>SIOL Quiz Platform</strong>
+  {% if test_name %}
+    <span class="test-name">— {{ test_name.replace("_", " ") }}</span>
+  {% endif %}
+</div>
+    </div>
+
+    <div class="header-center" style="width:400px; align:center;" >
+        <h4>Participant</h4>
+        <span><b>Leader:</b> {{ user.leader }}</span>
+        {% if user.team %}
+        <span><b>Team:</b> {{ user.team }}</span>
+        {% endif %}
+        <span><b>School:</b> {{ user.school }}</span>
+    </div>
+
+    <div class="header-right">
+        <div class="timer" id="timer">00:00</div>
+    </div>
+
+</div>
+
+<div class="quiz-layout">
+
+    <div class="container quiz-main">
+
+<form id="quizForm" method="post" action="/submit">
+<input type="hidden" name="time_taken" id="time_taken">
+
+{% for q in questions %}
+    {% set q_index = loop.index0 %}
+    <div class="question">
+        <b>{{ loop.index }}. {{ q.text }}</b>
+
+        <div class="options">
+            {% for key, value in q.options.items() %}
+                <label class="option-row">
+                    <input type="radio"
+                           name="q{{ q_index }}"
+                           value="{{ key }}">
+                    <span class="option-text">{{ key }}) {{ value }}</span>
+                </label>
+            {% endfor %}
+		<br>
+        </div>
+    </div>
+{% endfor %}
+
+<button type="submit">Submit Quiz</button>
+</form>
+</div>
+</div>
+    </div> <!-- end quiz-main -->
+
+</div> <!-- end quiz-layout -->
+
+<script>
+let total = {{ time }};
+let start = total;
+
+const timerEl = document.getElementById("timer");
+const timeTakenEl = document.getElementById("time_taken");
+
+function updateTimer() {
+    let m = Math.floor(total / 60);
+    let s = total % 60;
+
+    timerEl.textContent =
+        m.toString().padStart(2,'0') + ":" +
+        s.toString().padStart(2,'0');
+
+    timeTakenEl.value = start - total;
+
+    if (total <= 0) {
+        document.getElementById("quizForm").submit();
+    }
+    total--;
+}
+
+updateTimer();
+setInterval(updateTimer, 1000);
+</script>
+
+</body>
+</html>

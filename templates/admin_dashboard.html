@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SIOL Admin Dashboard</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" type="image/png" href="/static/images/SIOL.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+<div class="fixed-header" style="justify-content:center">
+    <img src="/static/images/SIOL.png" alt="SIOL Logo" style="width: 50px; height: 50px;">
+    <h1 style="text-align: center;">SIOL – Admin Login</h1>
+</div>
+<div class="container admin-section">
+
+<h2>Admin Dashboard</h2>
+
+<div style="display:flex;gap:20px;flex-wrap:wrap;">
+
+<form action="/admin/upload_rules" method="post" enctype="multipart/form-data">
+    <label>Upload Rules (.docx)</label><br>
+    <input type="file" name="rules" accept=".docx" required>
+    <button>Upload</button>
+</form>
+
+<form action="/admin/upload_questions" method="post" enctype="multipart/form-data">
+    <label>Upload Questions (.xlsx)</label><br>
+    <input type="file" name="questions" accept=".xlsx" required>
+    <button>Upload</button>
+</form
+<hr>
+
+<div style="
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+">
+
+    <a href="/admin/preview">
+        <button>Preview Quiz</button>
+    </a>
+
+    <a href="/admin/unhost">
+        <button>Unhost Quiz</button>
+    </a>
+
+    <a href="/admin/export_zip">
+        <button>Export ZIP</button>
+    </a>
+    <button onclick="openQR()">Generate QR</button>
+
+    <a href="/admin/clear_cache">
+        <button>Clear Cache</button>
+    </a>
+
+</div>
+<div id="qrOverlay" style="
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.7);
+  z-index:5000;
+  align-items:center;
+  justify-content:center;
+">
+
+  <div style="
+    background:var(--card);
+    padding:24px;
+    border-radius:18px;
+    text-align:center;
+    max-width:320px;
+    width:90%;
+    box-shadow:0 30px 60px rgba(0,0,0,0.6);
+  ">
+
+    <h3 style="color:var(--accent-2);margin-top:0;">
+      Scan to Join Quiz
+    </h3>
+
+    <div id="qrBox" style="margin:16px auto;"></div>
+
+    <p id="qrText" style="font-size:13px;word-break:break-all;"></p>
+
+    <button onclick="closeQR()">Close</button>
+  </div>
+</div>
+<script>
+function openQR() {
+  const ip = "{{ lan_ip }}";
+  const port = "{{ port }}";
+  const quizUrl = `http://${ip}:${port}/`;
+
+  document.getElementById("qrText").textContent = quizUrl;
+  document.getElementById("qrBox").innerHTML = "";
+
+  new QRCode(document.getElementById("qrBox"), {
+    text: quizUrl,
+    width: 220,
+    height: 220
+  });
+
+  document.getElementById("qrOverlay").style.display = "flex";
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html data-theme="{{ theme | default('') }}">
+<head>
+    <meta charset="UTF-8">
+    <title>SIOL – Quiz Preview</title>
+
+    <link rel="icon" type="image/png" href="/static/images/SIOL.png">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+<div class="fixed-header">
+
+    <div style="display:flex;align-items:center;gap:12px;">
+        <img src="/static/images/SIOL.png" alt="SIOL Logo" style="width: 50px; height: 50px;">
+        <strong>SIOL – Quiz Preview</strong>
+    </div>
+
+    <form method="post" style="display:flex;align-items:center;gap:14px;">
+
+        <label>
+            Test Name<br>
+            <input type="text"
+                   name="test_name"
+                   required
+                   placeholder="e.g. SIOL_ROUND_1"
+                   style="width:180px;">
+        </label>
+
+        <label>
+            Quiz Time (mins)<br>
+            <input type="number"
+                   name="time"
+                   min="1"
+                   max="180"
+                   value="{{ quiz_time }}"
+                   style="width:90px;">
+        </label>
+
+
+        <input type="hidden" name="theme" id="themeInput">
+<div class="theme-control">
+  <button type="button" id="themeBtn" class="theme-btn">
+    Theme ▾
+  </button>
+  <div id="themeMenu" class="theme-menu">
+    <button type="button" class="theme-option" data-theme="">Default</button>
+    <button type="button" class="theme-option" data-theme="light">Light</button>
+    <button type="button" class="theme-option" data-theme="dark">Dark</button>
+    <button type="button" class="theme-option" data-theme="dark-blue">Dark Blue</button>
+    <button type="button" class="theme-option" data-theme="solar">Solar</button>
+    <button type="button" class="theme-option" data-theme="forest">Forest</button>
+    <button type="button" class="theme-option" data-theme="sunset">Sunset</button>
+  </div>
+</div>
+
+<input type="hidden" name="theme" id="themeInput">
+
+        <button type="submit">
+            Host Quiz
+        </button>
+    </form>
+
+</div>
+
+<div class="container">
+
+    <h2>Questions Preview</h2>
+
+    {% if questions %}
+        {% for q in questions %}
+            <div class="question">
+                <b>{{ loop.index }}. {{ q.text }}</b>
+
+                <div class="options">
+                    {% for key, value in q.options.items() %}
+                        <div class="option-row">
+                            <span class="option-text"> {{ key }}. {{ value }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p><em>No questions uploaded yet.</em></p>
+    {% endif %}
+
+</div>
+</body>
+<script>
+const btn = document.getElementById("themeBtn");
+const menu = document.getElementById("themeMenu");
+const themeInput = document.getElementById("themeInput");
+
+btn.onclick = () => {
+  menu.style.display = menu.style.display === "block" ? "none" : "block";
+};
+
+document.querySelectorAll(".theme-option").forEach(opt => {
+  opt.onclick = () => {
+    const theme = opt.dataset.theme;
+    document.documentElement.setAttribute("data-theme", theme);
+    themeInput.value = theme;
+    menu.style.display = "none";
+  };
+});
+
+document.addEventListener("click", e => {
+  if (!btn.contains(e.target) && !menu.contains(e.target)) {
+    menu.style.display = "none";
+  }
+});
+</script>
+</html>

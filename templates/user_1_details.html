@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html data-theme="{{ theme }}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SIOL – Participant Details</title>
+
+    <link rel="icon" type="image/png" href="/static/images/SIOL.png">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/js/security.js"></script>
+</head>
+
+<body>
+
+<div class="fixed-header">
+    <div style="display:flex;align-items:center;gap:10px;">
+        <img src="/static/images/SIOL.png" alt="SIOL Logo" style="width: 50px; height: 50px;">
+        <div class="header-title">
+  <strong>SIOL Quiz Platform</strong>
+  {% if test_name %}
+    <span class="test-name">— {{ test_name.replace("_", " ") }}</span>
+  {% endif %}
+</div>
+</div>
+
+<div class="container">
+
+<h2>Participant Details</h2>
+
+<form method="post" action="/rules">
+
+    <div class="form-group">
+        <label>Team Leader Name</label>
+        <input type="text" name="leader" required>
+    </div>
+
+    <div class="form-group">
+        <label>Team Name (Optional)</label>
+        <input type="text" name="team">
+    </div>
+
+    <div class="form-group">
+        <label>Standard</label>
+        <input type="text" name="Standard" required>
+    </div>
+
+    <div class="form-group">
+        <label>Phone Number</label>
+        <input type="text" name="phone" required>
+    </div>
+
+    <div class="form-group">
+        <label>School Name</label>
+        <input type="text" name="school" required>
+    </div>
+
+    <div class="form-group">
+        <label>School Address</label>
+        <textarea name="address" rows="3" required></textarea>
+    </div>
+
+    <button type="submit">Proceed to Rules</button>
+
+</form>
+
+</div>
+
+</body>
+</html>

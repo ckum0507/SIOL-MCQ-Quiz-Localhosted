@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html data-theme="{{ theme }}">
+<head>
+    <meta charset="UTF-8">
+    <title>SIOL – Thank You</title>
+
+    <link rel="icon" type="image/png" href="/static/images/SIOL.png">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+<div class="fixed-header">
+    <div style="display:flex;align-items:center;gap:10px;">
+        <img src="/static/images/SIOL.png" alt="SIOL Logo" style="width: 50px; height: 50px;">
+        <div class="header-title">
+  <strong>SIOL Quiz Platform</strong>
+  {% if test_name %}
+    <span class="test-name">— {{ test_name.replace("_", " ") }}</span>
+  {% endif %}
+</div>
+    </div>
+</div>
+
+<div class="container thanks">
+
+<h2>Thank You!</h2>
+
+<p>Your responses have been successfully submitted.</p>
+<p>We appreciate your participation in SIOL.</p>
+
+<a href="/">
+    <button>Start New Quiz</button>
+</a>
+
+</div>
+
+</body>
+</html>
